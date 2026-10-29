@@ -1,0 +1,34 @@
+---
+// Cita: una frase grande en serif cursiva (declaracion) con su autor, sobre una foto a sangre con velo oliva
+// (imagen) o, sin foto, sobre oliva pleno. Sin declaración, título ni texto no se pinta. Si hay titulo/texto, van encima.
+import { seccion } from '../../data/site';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const frase = s ? (s.declaracion || '').trim() : '';
+---
+
+{
+  s && (frase || s.titulo || s.texto) && (
+    <section id={Astro.props.id} class="banda banda--oliva sobre-oscuro relative isolate overflow-hidden">
+      {s.imagen && (
+        <>
+          <Imagen src={s.imagen} alt="" ancho={1920} alto={820} respaldo="/placeholders/paisaje.svg" class="absolute inset-0 -z-20 h-full w-full object-cover" />
+          <div class="absolute inset-0 -z-10 bg-[color-mix(in_srgb,var(--c-primario)_78%,transparent)]" aria-hidden="true" />
+        </>
+      )}
+      <div class="contenedor flex min-h-[60svh] flex-col items-center justify-center py-24 text-center md:py-32">
+        {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+        {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+        {s.texto && <p class="mt-4 max-w-2xl text-lg opacity-85">{s.texto}</p>}
+        {frase && (
+          <figure class="mt-6 max-w-[62rem]">
+            <span class="serif block text-[7rem] leading-[.6] text-[var(--c-acento-claro)] md:text-[10rem]" aria-hidden="true">“</span>
+            <blockquote class="serif text-[clamp(1.9rem,4.6vw,4rem)] italic leading-[1.12] text-[var(--c-crema)]">{frase}</blockquote>
+            {s.autor && <figcaption class="versal mt-8 text-[color-mix(in_srgb,var(--c-crema)_82%,transparent)]">— {s.autor}</figcaption>}
+          </figure>
+        )}
+      </div>
+    </section>
+  )
+}

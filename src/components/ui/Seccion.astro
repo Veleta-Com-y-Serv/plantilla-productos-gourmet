@@ -1,0 +1,12 @@
+---
+// Banda de sección a todo el ancho. Adaptado de AstroWind (WidgetWrapper.astro), © onWidget, licencia MIT (LICENSE-ASTROWIND.md).
+// `banda`: crema | kraft | oliva | tierra | oscura (fondo pleno de borde a borde). El contenido va en un contenedor
+// ancho (90 rem) con 16 px de margen lateral en móvil; `sangre` lo quita para rejillas y fotos de borde a borde.
+interface Props { id?: string; class?: string; contenedor?: string; as?: string; etiqueta?: string; banda?: string; sangre?: boolean }
+const { id, class: clase = '', contenedor = '', as: Etiqueta = 'section', etiqueta, banda = 'crema', sangre = false } = Astro.props;
+const oscura = ['oliva', 'tierra', 'oscura'].includes(banda);
+---
+
+<Etiqueta class:list={['banda seccion', `banda--${banda}`, oscura && 'sobre-oscuro', clase]} id={id} aria-label={etiqueta}>
+  {sangre ? <slot /> : <div class:list={['contenedor', contenedor]}><slot /></div>}
+</Etiqueta>

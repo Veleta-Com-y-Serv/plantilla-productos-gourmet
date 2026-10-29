@@ -1,0 +1,35 @@
+---
+// Opiniones: banda de papel de estraza con las opiniones (testimonios: texto, autor, lugar) en columnas separadas
+// por líneas, cada una con unas comillas grandes de color tierra y el texto en serif cursiva.
+// Sin opiniones no se pinta (no se inventan).
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const lista = s ? s.testimonios.filter((t) => t.texto) : [];
+---
+
+{
+  s && lista.length > 0 && (
+    <Seccion id={Astro.props.id} banda="kraft">
+      <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <ul class="grid border-t-2 border-primario md:grid-cols-2 xl:grid-cols-3">
+        {lista.map((t) => (
+          <li class="border-b border-[var(--c-linea)] py-10 md:pr-10 md:[&:nth-child(2n)]:pl-10 xl:border-b-0 xl:border-r xl:px-10 xl:[&:nth-child(3n+1)]:pl-0 xl:[&:nth-child(3n)]:border-r-0">
+            <figure>
+              <span class="serif block text-[5.5rem] leading-[.55] text-acento" aria-hidden="true">“</span>
+              <blockquote class="serif mt-2 text-[1.45rem] italic leading-snug md:text-[1.6rem]">{t.texto}</blockquote>
+              {t.autor && (
+                <figcaption class="mt-6">
+                  <span class="versal text-primario">{t.autor}</span>
+                  {t.lugar && <span class="block text-sm text-[var(--c-suave)]">{t.lugar}</span>}
+                </figcaption>
+              )}
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </Seccion>
+  )
+}

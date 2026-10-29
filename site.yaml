@@ -1,0 +1,165 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+nombre: Majada del Berrocal
+eslogan: Quesos de oveja, miel de encina y aceite de la dehesa de Trujillo.
+sector: queseria
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = nombre en texto.
+colores:
+  primario: "#4b5726"   # verde oliva: cabecera, bandas oscuras y botones secundarios
+  acento: "#a4532d"     # tierra: botones, líneas de los antetítulos y bandas de color
+  fondo: "#f3ebdb"      # crema
+  texto: "#2b2519"
+contacto:
+  telefono: "927 32 18 46"
+  email: hola@majadadelberrocal.es
+  direccion: Calle de los Mesones 6, 10200 Trujillo (Cáceres)
+  horario: Lunes a sábado de 10:00 a 14:00 y de 17:00 a 20:00. Domingos de 10:00 a 14:00.
+  whatsapp: "+34 659 41 27 08"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: https://www.facebook.com/
+  linkedin: ""
+menu:
+  - { texto: Productos, url: "/#productos" }
+  - { texto: Origen, url: "/#origen" }
+  - { texto: Del campo a la mesa, url: "/#proceso" }
+  - { texto: Dónde comprar, url: "/#donde-comprar" }
+  - { texto: Preguntas, url: "/#preguntas" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Hacer un pedido, url: "/#contacto" }
+seo:
+  titulo: Majada del Berrocal · Quesería artesana en Trujillo
+  descripcion: Torta y quesos de oveja merina con leche propia, miel de encina y aceite de oliva de Trujillo (Cáceres). Tienda, mercado y envíos.
+  tipo: Store   # tipo de schema.org
+marca_pie: true   # «Web creada con NoExpertise» en el pie
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Quesería y despensa · Trujillo (Cáceres)
+    titulo: Queso de la dehesa, hecho como siempre
+    texto: Tortas y quesos de oveja con la leche de nuestro rebaño, miel de encina y aceite de los olivares de la sierra. Del campo de Trujillo a tu mesa.
+    imagen: /fotos/hero.jpg
+    cta: { texto: Ver productos, url: "/#productos" }
+    cta_secundario: { texto: Hacer un pedido, url: "/#contacto" }
+    items:   # rasgos breves al pie de la portada (titulo = rasgo, texto = detalle); vacío = no se pinta
+      - { titulo: Leche propia, texto: de nuestras ovejas merinas }
+      - { titulo: Cuajo natural, texto: y maduración en cava de piedra }
+      - { titulo: Envíos, texto: a toda la península en caja isotérmica }
+
+  productos:
+    activa: true
+    antetitulo: La despensa
+    titulo: Lo que sale de la majada
+    texto: Elaboración propia y en tandas pequeñas. Precios con IVA; el envío va aparte.
+    cta: { texto: Pide la lista completa, url: "/#contacto" }
+    productos:   # categoria agrupa y filtra; formato = tamaño o presentación; precio vacío o «Consultar» = sin precio
+      - { nombre: Torta del Berrocal, categoria: Quesos, formato: "Pieza de 1 kg aprox.", precio: "24 €", destacado: true, texto: "Queso de oveja merina de pasta blanda: se abre por arriba y se come a cucharadas.", imagen: /fotos/producto-1.jpg }
+      - { nombre: Queso de oveja curado, categoria: Quesos, formato: "Media pieza, 1,4 kg", precio: "29 €", destacado: false, texto: Seis meses en cava. Sabor intenso con un punto picante al final., imagen: /fotos/producto-2.jpg }
+      - { nombre: Queso de cabra en aceite, categoria: Quesos, formato: Tarro de 400 g, precio: "11,50 €", destacado: false, texto: Tacos de queso semicurado en aceite de oliva con romero y tomillo del monte., imagen: /fotos/producto-3.jpg }
+      - { nombre: Miel de encina y brezo, categoria: Miel, formato: Tarro de 500 g, precio: "9 €", destacado: false, texto: "Oscura, densa y poco dulce. De nuestras colmenas en la sierra de Santa Cruz.", imagen: /fotos/producto-4.jpg }
+      - { nombre: Aceite de oliva virgen extra, categoria: Aceite, formato: Botella de 750 ml, precio: "12 €", destacado: false, texto: "Variedad manzanilla cacereña, cosecha temprana y extracción en frío.", imagen: /fotos/producto-5.jpg }
+      - { nombre: Membrillo artesano, categoria: Despensa, formato: Tarrina de 400 g, precio: "5,50 €", destacado: false, texto: Hecho en el obrador con membrillos de la vega y poco azúcar. Para acompañar el queso., imagen: /fotos/producto-6.jpg }
+      - { nombre: Lote Majada, categoria: Lotes, formato: Caja de madera, precio: Consultar, destacado: false, texto: "Torta, queso curado, miel y aceite en caja de regalo. Para empresas, bodas y Navidad.", imagen: /fotos/producto-7.jpg }
+
+  origen:
+    activa: true
+    antetitulo: Nuestro origen
+    titulo: Tres generaciones entre encinas y berrocales
+    texto: |
+      La majada está a cuatro kilómetros de Trujillo, entre encinas y bolos de granito. Aquí pasta el rebaño desde que el abuelo Julián compró las primeras ovejas merinas, y aquí seguimos ordeñando cada mañana.
+
+      En el obrador hacemos lo mismo que entonces: leche cruda del día, cuajo natural, sal y tiempo. Ni prisas ni conservantes. Lo que no sale bien, no sale a la venta.
+    imagen: /fotos/origen.jpg
+    cta: { texto: Ven a conocer el obrador, url: "/#contacto" }
+    personas:
+      - { nombre: Julián Rebollo, cargo: Pastor, foto: /placeholders/persona.svg, texto: Lleva el rebaño y decide cada día dónde pasta. }
+      - { nombre: Pilar Rebollo, cargo: Maestra quesera, foto: /placeholders/persona.svg, texto: Hace las tortas y cuida la cava. }
+      - { nombre: Andrés Rebollo, cargo: Colmenas y olivar, foto: /placeholders/persona.svg, texto: Se encarga de la miel y del aceite. }
+
+  cifras:
+    activa: true
+    antetitulo: La majada en cifras
+    titulo: Poco, pero bien hecho
+    items:   # titulo = dato, texto = qué es; vacío = no se pinta
+      - { titulo: "1987", texto: primera torta del obrador }
+      - { titulo: "600", texto: ovejas merinas en pastoreo }
+      - { titulo: 180 ha, texto: de dehesa propia }
+      - { titulo: 60 días, texto: de maduración como mínimo }
+
+  proceso:
+    activa: true
+    antetitulo: Del campo a la mesa
+    titulo: Cuatro pasos y ningún atajo
+    texto: Todo pasa en la misma finca, del pasto al queso. Así sabemos qué come el rebaño y qué lleva cada pieza.
+    items:   # titulo, texto e imagen opcional; los números se ponen solos
+      - { titulo: Pasto en la dehesa, texto: "Las ovejas comen hierba, bellota y rastrojo según la estación.", imagen: /fotos/proceso-1.jpg }
+      - { titulo: Ordeño y cuajo natural, texto: La leche del día va al obrador recién ordeñada y se cuaja en frío., imagen: /fotos/proceso-2.jpg }
+      - { titulo: Moldeo y salado a mano, texto: "Cada pieza se moldea, se prensa y se sala a mano, una a una.", imagen: /fotos/proceso-3.jpg }
+      - { titulo: Maduración en cava, texto: "Reposa en la cava de piedra y se voltea a diario hasta su punto.", imagen: /fotos/proceso-4.jpg }
+
+  cita:
+    activa: true
+    declaracion: "Una torta buena no se hace deprisa: la hace la dehesa en primavera y la paciencia en la cava."
+    autor: Pilar Rebollo, maestra quesera
+    imagen: /fotos/cita.jpg
+
+  donde-comprar:
+    activa: true
+    antetitulo: Dónde comprar
+    titulo: En la tienda, en el mercado o en tu casa
+    texto: Puedes pasar por la tienda del obrador, buscarnos en el mercado o pedir que te lo mandemos.
+    cta: { texto: Comprar en la tienda online, url: "https://tienda.majadadelberrocal.es" }
+    items:   # titulo, texto, icono y url opcional (enlace del punto de venta)
+      - { titulo: Tienda del obrador, texto: "Calle de los Mesones 6, Trujillo. De lunes a domingo.", icono: casa, url: "/#contacto" }
+      - { titulo: Mercado de los jueves, texto: "Puesto en la plaza de Trujillo, de 9:00 a 14:00.", icono: calendario, url: "" }
+      - { titulo: Tiendas de la provincia, texto: Ultramarinos y tiendas de producto local de Cáceres y Plasencia., icono: mapa, url: "" }
+      - { titulo: Envío a domicilio, texto: "En 48-72 horas a toda la península, en caja isotérmica.", icono: camion, url: "/#contacto" }
+
+  galeria:
+    activa: true
+    antetitulo: La majada
+    titulo: Un paseo por el campo y el obrador
+    galeria:
+      - /fotos/galeria-1.jpg
+      - /fotos/proceso-2.jpg
+      - /fotos/producto-1.jpg
+      - /fotos/galeria-2.jpg
+      - /fotos/proceso-4.jpg
+      - /fotos/origen.jpg
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que dicen en la mesa
+    testimonios:
+      - { texto: "La torta llegó a Bilbao perfecta y en dos días. En casa ya no compramos otra.", autor: Begoña A., lugar: Bilbao }
+      - { texto: Paramos en la tienda de camino a Mérida y nos enseñaron la cava. El queso curado es de los mejores que hemos probado., autor: Raúl y Marta, lugar: Madrid }
+      - { texto: "Pedimos lotes para los regalos de empresa y quedamos como reyes. Muy buen trato.", autor: Asesoría Cancho, lugar: Cáceres }
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Lo que más nos preguntan
+    preguntas:
+      - { pregunta: ¿Hacéis envíos a toda España?, respuesta: "Enviamos a toda la península en 48-72 horas, en caja isotérmica con frío. A Baleares y Canarias, consúltanos." }
+      - { pregunta: ¿Cuánto aguanta la torta fuera de la nevera?, respuesta: "Se conserva en la nevera, entre 4 y 8 grados. Sácala una hora antes de comerla para que esté cremosa." }
+      - { pregunta: ¿Los quesos son de leche cruda?, respuesta: "Sí. Usamos leche cruda de oveja de nuestro rebaño, con al menos 60 días de maduración, como marca la normativa." }
+      - { pregunta: ¿Se puede visitar el obrador?, respuesta: "Sí, con cita previa y en grupos pequeños. Escríbenos y te damos día y hora." }
+      - { pregunta: ¿Preparáis lotes para empresas o bodas?, respuesta: "Sí. Montamos lotes a medida con tarjeta personalizada. Pídelos con al menos dos semanas de antelación." }
+
+  cta:
+    activa: true
+    antetitulo: Pedidos
+    titulo: ¿Te preparamos un pedido?
+    texto: Escríbenos por WhatsApp con lo que quieres y te decimos el precio del envío y el día de entrega.
+    cta: { texto: Pedir por WhatsApp, url: "https://wa.me/34659412708" }
+    cta_secundario: { texto: Llamar a la tienda, url: "tel:+34927321846" }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Haz tu pedido o pregúntanos
+    texto: Dinos qué quieres, cuánto y dónde te lo mandamos. Te respondemos el mismo día con el total y la fecha de entrega.
+    cta: { texto: Enviar pedido, url: "/#contacto" }

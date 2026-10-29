@@ -1,0 +1,116 @@
+---
+// Productos: la despensa como una estantería de borde a borde (rejilla sin márgenes laterales separada por líneas
+// finas; 1, 2, 3 o 4 columnas según el ancho). Cada ficha: foto cuadrada, categoría en versalitas, nombre en serif,
+// texto, línea de formato y precio con puntos (como una etiqueta de tienda), botón «Pedir» que lleva a contacto y
+// deja elegido el producto, y botón de WhatsApp con el producto en el mensaje si hay WhatsApp.
+// `destacado: true` cuelga la etiqueta «Lo más pedido». Precio vacío o «Consultar» = sin precio.
+// Pestañas por categoría (en orden de aparición) con un script mínimo. Con `productos: []`, el texto y el botón.
+import { seccion, buscarSeccion, clave, conPrecio, site, whatsapp } from '../../data/site';
+import type { Producto } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const lista: Producto[] = s ? s.productos.filter((p) => p.nombre) : [];
+const categorias = [...new Set(lista.map((p) => p.categoria).filter(Boolean))] as string[];
+const contacto = buscarSeccion('contacto');
+const destino = contacto ? `#${contacto.id}` : '';
+const wa = site.contacto.whatsapp;
+const mensaje = (p: Producto) => `Hola, quiero pedir: ${p.nombre}${p.formato ? ` (${p.formato})` : ''}`;
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} banda="crema" sangre class="pb-0 md:pb-0">
+      <div data-catalogo>
+        <div class="contenedor">
+          <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <Titular class="mb-0 md:mb-0" antetitulo={s.antetitulo} titulo={s.titulo} texto={lista.length ? s.texto : ''} />
+          </div>
+          {categorias.length > 1 && (
+            <div class="filtro mt-10 border-b border-[var(--c-linea)]" role="group" aria-label={s.titulo || s.antetitulo || 'Categorías'}>
+              <button type="button" data-filtro="" aria-pressed="true">Todo</button>
+              {categorias.map((c) => <button type="button" data-filtro={clave(c)} aria-pressed="false">{c}</button>)}
+            </div>
+          )}
+        </div>
+
+        {lista.length > 0 ? (
+          <ul class="estanteria mt-10 md:mt-12">
+            {lista.map((p) => (
+              <li data-categoria={clave(p.categoria)}>
+                <article class="ficha grid w-full grid-cols-[minmax(0,38%)_minmax(0,1fr)] sm:flex sm:flex-col">
+                  <div class="ficha-foto">
+                    <Imagen src={p.imagen || '/placeholders/producto.svg'} alt={p.nombre} ancho={800} alto={800} respaldo="/placeholders/producto.svg" class="w-full object-cover max-sm:absolute max-sm:inset-0 max-sm:h-full sm:aspect-square" />
+                    {p.destacado && <span class="etiqueta-colgante">Lo más pedido</span>}
+                  </div>
+                  <div class="flex min-w-0 flex-1 flex-col px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5 lg:px-7">
+                    {p.categoria && <p class="versal text-[var(--c-acento-texto)]">{p.categoria}</p>}
+                    <h3 class="mt-1.5 text-[1.3rem] leading-tight text-primario sm:mt-2 sm:text-[1.7rem]">{p.nombre}</h3>
+                    {p.texto && <p class="mt-1.5 text-sm text-[var(--c-suave)] sm:mt-2 sm:text-[.97rem]">{p.texto}</p>}
+                    {(p.formato || conPrecio(p.precio)) && (
+                      <p class="linea-precio mt-3 sm:mt-5">
+                        <span class="text-sm">{p.formato}</span>
+                        <span class="puntos" aria-hidden="true" />
+                        {conPrecio(p.precio) && <span class="serif whitespace-nowrap text-xl font-bold text-primario sm:text-2xl">{p.precio}</span>}
+                      </p>
+                    )}
+                    <div class="mt-auto flex items-center gap-2 pt-4 sm:pt-6">
+                      {destino && (
+                        <a href={destino} data-producto={p.nombre} class="btn-pedir flex-1">
+                          {conPrecio(p.precio) ? 'Pedir' : 'Consultar'}
+                        </a>
+                      )}
+                      {wa && (
+                        <a href={whatsapp(wa, mensaje(p))} rel="noopener" target="_blank" class="btn-icono" aria-label={`Pedir ${p.nombre} por WhatsApp`}>
+                          <Icono nombre="whatsapp" tam={20} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="contenedor pb-16">
+            <div class="flex flex-col gap-6 border-y border-[var(--c-linea)] py-10 sm:flex-row sm:items-center">
+              <Icono nombre="queso" tam={40} class="shrink-0 text-[var(--c-acento-texto)]" />
+              {s.texto && <p class="serif flex-1 text-2xl">{s.texto}</p>}
+              {s.cta?.url && <a class="btn shrink-0" href={s.cta.url}>{s.cta.texto}</a>}
+            </div>
+          </div>
+        )}
+
+        {lista.length > 0 && s.cta?.url && (
+          <div class="contenedor py-12 text-center md:py-16">
+            <a class="btn-sec text-primario" href={s.cta.url}>{s.cta.texto}</a>
+          </div>
+        )}
+        {lista.length > 0 && !s.cta?.url && <div class="h-16 md:h-24" />}
+      </div>
+    </Seccion>
+  )
+}
+
+<script is:inline>
+  (function () {
+    if (window.__despensaLista) return;
+    window.__despensaLista = true;
+    function filtrar(bloque, f) {
+      bloque.querySelectorAll('[data-filtro]').forEach(function (o) { o.setAttribute('aria-pressed', String(o.getAttribute('data-filtro') === f)); });
+      bloque.querySelectorAll('[data-categoria]').forEach(function (li) { li.hidden = !!f && li.getAttribute('data-categoria') !== f; });
+    }
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-filtro]');
+      if (b) { filtrar(b.closest('[data-catalogo]'), b.getAttribute('data-filtro')); return; }
+      var p = e.target.closest('[data-producto]');
+      if (p) {
+        var sel = document.getElementById('f-producto');
+        if (sel) { sel.value = p.getAttribute('data-producto'); sel.dispatchEvent(new Event('change')); }
+      }
+    });
+  })();
+</script>

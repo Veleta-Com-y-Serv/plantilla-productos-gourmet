@@ -1,0 +1,234 @@
+/* Productos artesanos y del campo — estilo rústico: verde oliva + tierra + crema de papel.
+   Bandas a todo el ancho que alternan foto a sangre, oliva, tierra, crema y papel de estraza; títulos en serif
+   del sistema muy grandes, antetítulos en versalitas espaciadas con una línea de color, esquinas rectas,
+   la despensa como una estantería de borde a borde y números romanos en los pasos. */
+@import "tailwindcss";
+@import "./comun.css";
+@config "../../tailwind.config.mjs";
+
+:root {
+  --fuente-texto: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fuente-titulos: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", P052, Georgia, serif;
+  --radio: 0;
+  --ritmo: 4.5rem;
+  --ritmo-md: 7.5rem;
+  --ancho: 90rem;
+  --alto-cabecera: 4.5rem;
+  /* Derivados de los cuatro colores de site.yaml (siguen funcionando si el cliente los cambia) */
+  --c-oscuro: color-mix(in srgb, var(--c-primario) 62%, #000);          /* oliva casi negro: pie */
+  --c-kraft: color-mix(in srgb, var(--c-acento) 13%, var(--c-fondo));   /* papel de estraza */
+  --c-acento-texto: color-mix(in srgb, var(--c-acento) 88%, #000);     /* tierra legible sobre crema */
+  --c-acento-claro: color-mix(in srgb, var(--c-acento) 45%, #fff);     /* tierra legible sobre oliva */
+  --c-crema: color-mix(in srgb, var(--c-fondo) 92%, #fff);             /* texto claro sobre bandas oscuras */
+  --c-linea: color-mix(in srgb, var(--c-texto) 18%, transparent);
+  --c-linea-clara: color-mix(in srgb, var(--c-crema) 24%, transparent);
+  --c-suave: color-mix(in srgb, var(--c-texto) 74%, var(--c-fondo));
+}
+
+@layer base {
+  html { scroll-padding-top: calc(var(--alto-cabecera) + .5rem); }
+  body { font-family: var(--fuente-texto); font-size: 1.02rem; line-height: 1.6; background: var(--c-fondo); }
+  h1, h2, h3 { font-family: var(--fuente-titulos); font-weight: 700; letter-spacing: -0.01em; line-height: 1.04; }
+}
+
+@layer components {
+  /* ── Bandas a sangre ─────────────────────────────────────────────────────────────── */
+  .banda { position: relative; width: 100%; }
+  .banda--crema { background: var(--c-fondo); color: var(--c-texto); }
+  .banda--kraft {
+    color: var(--c-texto);
+    background-color: var(--c-kraft);
+    /* fibra del papel: dos tramas finas y muy suaves */
+    background-image:
+      repeating-linear-gradient(115deg, color-mix(in srgb, var(--c-texto) 3%, transparent) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(25deg, color-mix(in srgb, var(--c-acento) 5%, transparent) 0 1px, transparent 1px 11px);
+  }
+  .banda--oliva { background: var(--c-primario); color: var(--c-crema); }
+  .banda--tierra { background: var(--c-acento); color: var(--c-crema); }
+  .banda--oscura { background: var(--c-oscuro); color: var(--c-crema); }
+  .sobre-oscuro { color: var(--c-crema); }
+  .sobre-oscuro .antetitulo { color: var(--c-crema); }
+  .sobre-oscuro .antetitulo::before { background: var(--c-acento-claro); }
+  .banda--tierra .antetitulo::before { background: var(--c-crema); }
+  .sobre-oscuro .titulo-seccion { color: var(--c-crema); }
+  .sobre-oscuro .titular-texto { color: color-mix(in srgb, var(--c-crema) 82%, transparent); }
+
+  /* ── Titulares ───────────────────────────────────────────────────────────────────── */
+  .antetitulo {
+    display: inline-flex; align-items: center; gap: .85rem;
+    font-family: var(--fuente-texto); font-size: .74rem; font-weight: 700; line-height: 1.3;
+    letter-spacing: .22em; text-transform: uppercase; color: var(--c-acento-texto);
+  }
+  .antetitulo::before { content: ""; flex: none; width: 2.75rem; height: 2px; background: var(--c-acento); }
+  .titulo-seccion { margin-top: .9rem; font-size: clamp(2.15rem, 5.2vw, 4.6rem); color: var(--c-primario); }
+  .titular { margin-bottom: 2.5rem; max-width: 52rem; }
+  .titular--centro { margin-inline: auto; text-align: center; }
+  .titular--centro .antetitulo { justify-content: center; }
+  .titular-texto { margin-top: 1.1rem; max-width: 40rem; font-size: 1.12rem; color: var(--c-suave); }
+  .titular--centro .titular-texto { margin-inline: auto; }
+  @media (min-width: 768px) { .titular { margin-bottom: 3.5rem; } }
+
+  .serif { font-family: var(--fuente-titulos); }
+  .versal { font-size: .74rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+
+  /* ── Botones: rectos, en versalitas, 48 px de alto ───────────────────────────────── */
+  .btn, .btn-sec, .btn-claro {
+    min-height: 3rem; padding: .8rem 1.6rem; border-radius: 0;
+    font-size: .8rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  }
+  .btn { background: var(--c-acento); color: #fff; border: 2px solid var(--c-acento); }
+  .btn:hover { background: color-mix(in srgb, var(--c-acento) 82%, #000); border-color: color-mix(in srgb, var(--c-acento) 82%, #000); }
+  .btn-sec { background: transparent; color: inherit; border: 2px solid currentColor; }
+  .btn-sec:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+  .btn-claro {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem; line-height: 1.2; text-align: center;
+    text-decoration: none; cursor: pointer; background: var(--c-crema); color: var(--c-primario); border: 2px solid var(--c-crema);
+  }
+  .btn-claro:hover { background: transparent; color: var(--c-crema); }
+  .banda--tierra .btn { background: var(--c-oscuro); border-color: var(--c-oscuro); }
+  .banda--tierra .btn:hover { background: var(--c-primario); border-color: var(--c-primario); }
+
+  /* ── Cabecera fija: transparente sobre la foto de portada, oliva al bajar ──────────── */
+  .cabecera--campo { position: fixed; inset: 0 0 auto 0; z-index: 50; background: var(--c-primario); color: var(--c-crema); transition: background-color .25s ease, box-shadow .25s ease; }
+  .cabecera--campo .cabecera-fila { min-height: var(--alto-cabecera); }
+  .js .cabecera--sobre-hero:not(.cabecera--solida):not(:has(details[open])) {
+    background: linear-gradient(to bottom, rgb(0 0 0 / .45), transparent);
+  }
+  .cabecera--solida { box-shadow: 0 1px 0 var(--c-linea-clara), 0 10px 30px rgb(0 0 0 / .18); }
+  .cabecera-hueco { height: var(--alto-cabecera); }
+  .cabecera--campo .marca { gap: .55rem; }
+  .cabecera--campo .marca-hoja { flex: none; color: var(--c-acento-claro); }
+  .cabecera--campo .marca-nombre { font-family: var(--fuente-titulos); font-size: 1.32rem; font-weight: 700; letter-spacing: 0; }
+  .cabecera--campo .marca-logo { max-height: 2.75rem; }
+  .cabecera--campo .cabecera-nav { gap: 1.6rem; }
+  .cabecera--campo .cabecera-nav a { font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding-block: .5rem; border-bottom: 2px solid transparent; }
+  .cabecera--campo .cabecera-nav a:hover { border-bottom-color: var(--c-acento-claro); }
+  .cabecera--campo .cabecera-cta { min-height: 2.75rem; padding: .6rem 1.15rem; font-size: .74rem; }
+  .cabecera--campo .menu-movil summary { min-height: 2.75rem; padding: .5rem .9rem; border: 1px solid var(--c-linea-clara); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+  .cabecera--campo .menu-movil-panel { background: var(--c-primario); color: var(--c-crema); padding: .5rem 1rem 1.5rem; max-height: calc(100svh - var(--alto-cabecera)); overflow-y: auto; box-shadow: 0 20px 40px rgb(0 0 0 / .25); }
+  .cabecera--campo .menu-movil-panel a { font-family: var(--fuente-titulos); font-size: 1.45rem; padding: .8rem 0; border-bottom-color: var(--c-linea-clara); }
+  .cabecera--campo .menu-movil-panel .btn { font-family: var(--fuente-texto); font-size: .8rem; }
+  @media (max-width: 1099px) {
+    .cabecera--campo .cabecera-nav { display: none; }
+    .cabecera--campo .cabecera-cta { display: none; }
+    .cabecera--campo .menu-movil { display: block; }
+  }
+  @media (min-width: 1100px) {
+    .cabecera--campo .cabecera-nav { display: flex; }
+    .cabecera--campo .cabecera-cta { display: inline-flex; }
+    .cabecera--campo .menu-movil { display: none; }
+  }
+
+  /* ── Portada a sangre ────────────────────────────────────────────────────────────── */
+  .hero-sangre { position: relative; display: flex; flex-direction: column; min-height: 92svh; overflow: hidden; background: var(--c-oscuro); color: var(--c-crema); isolation: isolate; }
+  .hero-sangre .hero-foto { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+  .hero-sangre .hero-velo {
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(to top, color-mix(in srgb, var(--c-oscuro) 94%, transparent) 0%, color-mix(in srgb, var(--c-oscuro) 55%, transparent) 42%, transparent 78%),
+      linear-gradient(to right, color-mix(in srgb, var(--c-oscuro) 55%, transparent), transparent 70%);
+  }
+  .hero-sangre--sin-foto { background: var(--c-primario); }
+  .hero-sangre--sin-foto .hero-velo { background: radial-gradient(ellipse at 85% 20%, color-mix(in srgb, var(--c-acento) 35%, transparent), transparent 60%); }
+  .hero-titulo { font-size: clamp(2.75rem, 8.4vw, 7.4rem); line-height: .96; letter-spacing: -0.02em; max-width: 15ch; }
+  .hero-pie { border-top: 1px solid var(--c-linea-clara); }
+
+  /* ── Despensa: estantería de borde a borde ───────────────────────────────────────── */
+  .estanteria { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--c-linea); }
+  @media (min-width: 560px) { .estanteria { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .estanteria { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1360px) { .estanteria { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .estanteria > li { display: flex; border-bottom: 1px solid var(--c-linea); border-right: 1px solid var(--c-linea); }
+  .estanteria > li[hidden] { display: none; }
+  .ficha-foto { position: relative; overflow: hidden; background: var(--c-kraft); min-height: 9rem; }
+  .ficha-foto img { transition: transform .5s ease; }
+  .ficha:hover .ficha-foto img { transform: scale(1.04); }
+  .linea-precio { display: flex; align-items: baseline; gap: .6rem; }
+  .linea-precio .puntos { flex: 1; min-width: 1rem; border-bottom: 2px dotted var(--c-linea); transform: translateY(-.3rem); }
+  .etiqueta-colgante {
+    position: absolute; left: 0; top: .75rem; padding: .4rem .9rem .4rem .6rem; max-width: 92%;
+    background: var(--c-acento); color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, calc(100% - .6rem) 50%, 100% 100%, 0 100%); white-space: nowrap;
+  }
+  @media (max-width: 639px) { .etiqueta-colgante { font-size: .6rem; letter-spacing: .08em; padding-right: .8rem; } }
+  .btn-pedir {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 2.75rem; padding: .55rem 1.1rem;
+    font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; text-decoration: none;
+    color: var(--c-primario); border: 2px solid var(--c-primario); background: transparent; cursor: pointer;
+  }
+  .btn-pedir:hover { background: var(--c-primario); color: var(--c-crema); }
+  .btn-icono { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; flex: none; color: var(--c-primario); border: 2px solid var(--c-linea); }
+  .btn-icono:hover { border-color: var(--c-primario); }
+
+  /* Filtro por categoría: pestañas con subrayado */
+  .filtro { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+  .filtro button {
+    flex: none; min-height: 2.75rem; padding: .5rem 0; font: inherit; font-size: .76rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--c-suave); background: none; border: 0; border-bottom: 2px solid transparent; cursor: pointer;
+  }
+  .filtro button:hover { color: var(--c-texto); }
+  .filtro button[aria-pressed="true"] { color: var(--c-primario); border-bottom-color: var(--c-acento); }
+
+  /* ── Pasos con foto a sangre y número romano ─────────────────────────────────────── */
+  .franja-pasos { display: grid; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 640px) { .franja-pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .franja-pasos { grid-template-columns: repeat(var(--pasos, 4), minmax(0, 1fr)); } }
+  .paso-foto { position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--c-primario); }
+  @media (min-width: 640px) { .paso-foto { aspect-ratio: 4 / 3; } }
+  @media (min-width: 1100px) { .paso-foto { aspect-ratio: 3 / 4; } }
+  .paso-foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, color-mix(in srgb, var(--c-oscuro) 85%, transparent), transparent 55%); }
+  .paso-num { position: absolute; left: 1.25rem; bottom: .6rem; z-index: 1; font-family: var(--fuente-titulos); font-size: clamp(3.5rem, 7vw, 5.5rem); line-height: 1; color: var(--c-crema); }
+
+  /* ── Mosaico de fotos sin márgenes ───────────────────────────────────────────────── */
+  .mosaico { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 46vw; grid-auto-flow: dense; }
+  .mosaico > li:first-child { grid-column: span 2; }
+  .mosaico > li:last-child:nth-child(even) { grid-column: span 2; }
+  @media (min-width: 768px) {
+    .mosaico { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 26vw; }
+    .mosaico > li:first-child { grid-column: span 2; grid-row: span 2; }
+    .mosaico > li:last-child:nth-child(even) { grid-column: auto; }
+  }
+  @media (min-width: 1280px) { .mosaico { grid-auto-rows: 22vw; } }
+  .mosaico img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease, filter .6s ease; }
+  .mosaico li { overflow: hidden; background: var(--c-kraft); }
+  .mosaico li:hover img { transform: scale(1.035); }
+
+  /* Rama de olivo decorativa */
+  .rama { position: absolute; pointer-events: none; color: currentColor; opacity: .14; }
+
+  /* ── Preguntas ───────────────────────────────────────────────────────────────────── */
+  .pregunta summary::-webkit-details-marker { display: none; }
+  .pregunta summary { list-style: none; }
+  .pregunta[open] .pregunta-mas { transform: rotate(45deg); background: var(--c-acento); border-color: var(--c-acento); color: #fff; }
+
+  /* ── Formulario sobre banda oliva ────────────────────────────────────────────────── */
+  .formulario .campo label { font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .formulario .campo input, .formulario .campo textarea, .formulario .campo select {
+    width: 100%; font: inherit; padding: .8rem .9rem; min-height: 3rem; border-radius: 0;
+    background: var(--c-crema); color: #221d14; border: 1px solid transparent;
+  }
+  .formulario .campo input:focus, .formulario .campo textarea:focus, .formulario .campo select:focus { outline: 2px solid var(--c-acento-claro); outline-offset: 1px; }
+  .formulario-doble { display: grid; gap: 1rem; }
+  @media (min-width: 560px) { .formulario-doble { grid-template-columns: 1fr 1fr; } }
+  .formulario .campo-check a { text-decoration: underline; }
+  .formulario-aviso { opacity: .8; }
+
+  /* ── Pie ─────────────────────────────────────────────────────────────────────────── */
+  .pie--campo { background: var(--c-oscuro); color: color-mix(in srgb, var(--c-crema) 85%, transparent); padding-top: 0; }
+  .pie--campo .pie-firma { font-family: var(--fuente-titulos); font-size: clamp(2.6rem, 9vw, 8.5rem); line-height: .95; letter-spacing: -0.02em; color: var(--c-crema); overflow-wrap: anywhere; }
+  .pie--campo .pie-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pie--campo .pie-rejilla > .pie-marca, .pie--campo .pie-rejilla > :last-child { grid-column: 1 / -1; }
+  @media (min-width: 768px) {
+    .pie--campo .pie-rejilla { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; }
+    .pie--campo .pie-rejilla > .pie-marca, .pie--campo .pie-rejilla > :last-child { grid-column: auto; }
+  }
+  .pie--campo .pie-titulo { font-size: .72rem; font-weight: 700; letter-spacing: .2em; opacity: 1; color: var(--c-acento-claro); }
+  .pie--campo .pie-lista a:hover { color: var(--c-crema); }
+  .pie--campo .pie-redes a { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--c-linea-clara); }
+  .pie--campo .pie-legal { border-top-color: var(--c-linea-clara); }
+  .pie--campo .pie-legal a { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Textos largos (aviso legal) */
+  .texto-largo h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: var(--c-primario); }
+  .texto-largo p { max-width: 46rem; }
+}

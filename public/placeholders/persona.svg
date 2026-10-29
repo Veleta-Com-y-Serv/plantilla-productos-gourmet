@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Foto de la persona pendiente">
+  <rect width="300" height="300" fill="#eadcc4"/>
+  <circle cx="150" cy="118" r="54" fill="#b9a586"/>
+  <path d="M52 300c8-62 48-96 98-96s90 34 98 96z" fill="#b9a586"/>
+</svg>

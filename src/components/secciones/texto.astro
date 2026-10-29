@@ -1,0 +1,49 @@
+---
+// Apartado de texto genérico (site.yaml: `tipo: texto`): banda de papel de estraza a todo el ancho. Con imagen,
+// fila 50/50 con la foto a sangre a la derecha (toca el borde de la ventana); sin imagen, el texto en una columna
+// ancha. Antetítulo, título, párrafos, lista con iconos (items: titulo, texto, icono) y botón (cta).
+import { seccion, parrafos } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((i) => i.titulo) : [];
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda banda--kraft">
+      <div class:list={['grid', s.imagen && 'lg:grid-cols-2']}>
+        <div class:list={['py-16 md:py-24', s.imagen ? 'px-4 sm:px-8 lg:px-16 xl:px-24' : 'contenedor']}>
+          <div class="max-w-[44rem]">
+            {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+            {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+            <div class="mt-7 space-y-5 text-lg leading-relaxed text-[var(--c-suave)]">
+              {parrafos(s.texto).map((p) => <p>{p}</p>)}
+            </div>
+            {items.length > 0 && (
+              <ul class="mt-10 border-t border-[var(--c-linea)]">
+                {items.map((it) => (
+                  <li class="flex gap-4 border-b border-[var(--c-linea)] py-4">
+                    <Icono nombre={it.icono || 'espiga'} tam={22} class="mt-1 shrink-0 text-[var(--c-acento-texto)]" />
+                    <div>
+                      <p class="serif text-xl text-primario">{it.titulo}</p>
+                      {it.texto && <p class="mt-0.5 text-[var(--c-suave)]">{it.texto}</p>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {s.cta?.url && <a class="btn mt-9" href={s.cta.url}>{s.cta.texto}</a>}
+          </div>
+        </div>
+        {s.imagen && (
+          <div class="relative order-first min-h-[22rem] sm:min-h-[28rem] lg:order-none lg:min-h-full">
+            <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={1200} respaldo="/placeholders/paisaje.svg" class="absolute inset-0 h-full w-full object-cover" />
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

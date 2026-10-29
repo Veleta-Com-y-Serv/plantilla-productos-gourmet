@@ -1,0 +1,91 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: productos-gourmet
+nombre: Productos artesanos y del campo
+descripcion: "Web rústica en oliva, tierra y crema para queserías, mieles, aceites, huertas y cooperativas."
+sectores:
+  - { id: alimentacion, nombre: Alimentación }
+  - { id: gourmet, nombre: Productos gourmet }
+  - { id: agricultura, nombre: Agricultura }
+  - { id: ganaderia, nombre: Ganadería }
+  - { id: cooperativa, nombre: Cooperativa }
+  - { id: queseria, nombre: Quesería }
+  - { id: miel, nombre: Miel y apicultura }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: productos, nombre: Productos }
+  - { id: origen, nombre: Nuestro origen }
+  - { id: cifras, nombre: Cifras }
+  - { id: proceso, nombre: Del campo a la mesa }
+  - { id: cita, nombre: Cita destacada }
+  - { id: donde-comprar, nombre: Dónde comprar }
+  - { id: galeria, nombre: Galería }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: cta, nombre: Haz tu pedido }
+  - { id: contacto, nombre: Contacto }
+estilo: rustico
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-productos-gourmet.noexpertise.com
+activa: true
+orden: 330
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu negocio"
+    pregunta: "¿Cómo se llama tu negocio y qué elaboras o cultivas?"
+    ayuda: "Qué productos haces, de dónde salen (tu finca, tu rebaño, tus colmenas…) y en qué pueblo estás."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde está tu tienda u obrador y cómo te pueden llamar o escribir para hacer un pedido?"
+    ayuda: "Con WhatsApp, cada producto lleva su botón para pedirlo. Lo que dejes vacío no sale en tu web."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: productos
+    titulo: "Tus productos"
+    pregunta: "Cuéntame lo que vendes: nombre, tipo (quesos, miel, aceite…), formato o tamaño y el precio si quieres. Uno por línea."
+    ayuda: "Si lo prefieres, añádelos luego en Contenido."
+    tipo: lista
+    campos: [secciones.productos.productos]
+  - id: origen
+    titulo: "Tu historia"
+    pregunta: "¿Desde cuándo os dedicáis a esto, quiénes sois y qué hace distintos vuestros productos?"
+    tipo: texto
+    campos: [secciones.origen.titulo, secciones.origen.texto, secciones.cita.declaracion]
+  - id: proceso
+    titulo: "Del campo a la mesa"
+    pregunta: "¿Cómo se hace tu producto, desde el campo hasta que llega a casa?"
+    ayuda: "Los pasos, con su foto, se cambian luego en Contenido."
+    tipo: texto
+    campos: [secciones.proceso.titulo, secciones.proceso.texto]
+  - id: donde-comprar
+    titulo: "Dónde comprar"
+    pregunta: "¿Dónde se pueden comprar tus productos? Tienda, mercados, tiendas que te venden, envíos…"
+    ayuda: "Si tienes tienda online, pon su dirección luego en Contenido, en el botón de este apartado."
+    tipo: texto
+    campos: [secciones.donde-comprar.titulo, secciones.donde-comprar.texto, secciones.donde-comprar.items]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué te preguntan más a menudo? Envíos, conservación, visitas, lotes… Escribe cada pregunta y lo que respondes."
+    ayuda: "Si lo prefieres, añádelas luego en Contenido."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada (tu campo, tu obrador o tu producto estrella) y, si quieres, las de tu historia y la galería."
+    ayuda: "Sube las tuyas o elige una del banco. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.origen.imagen, secciones.cita.imagen, secciones.galeria.galeria]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso

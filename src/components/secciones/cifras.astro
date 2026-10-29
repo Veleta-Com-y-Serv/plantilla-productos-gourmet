@@ -1,0 +1,26 @@
+---
+// Cifras: banda de color tierra a todo el ancho con los datos en serif enorme (items: titulo = dato, texto = qué es),
+// separados por líneas claras; 2 columnas en móvil y hasta 4 en escritorio. Sin items no se pinta (no se inventan cifras).
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((i) => i.titulo) : [];
+---
+
+{
+  s && items.length > 0 && (
+    <Seccion id={Astro.props.id} banda="tierra">
+      <Titular antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <dl class="grid grid-cols-2 border-t border-[var(--c-linea-clara)] lg:grid-cols-4" style={`--n:${items.length}`}>
+        {items.map((it) => (
+          <div class="border-b border-[var(--c-linea-clara)] py-7 pr-4 odd:border-r odd:pr-4 even:pl-5 lg:border-b-0 lg:border-r lg:px-7 lg:py-4 lg:first:pl-0 lg:last:border-r-0 lg:even:pl-7">
+            <dt class="serif text-[clamp(2.6rem,6.5vw,5.6rem)] leading-none text-[var(--c-crema)]">{it.titulo}</dt>
+            {it.texto && <dd class="versal mt-3 leading-snug text-[color-mix(in_srgb,var(--c-crema)_85%,transparent)]">{it.texto}</dd>}
+          </div>
+        ))}
+      </dl>
+    </Seccion>
+  )
+}

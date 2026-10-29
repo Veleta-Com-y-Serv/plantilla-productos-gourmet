@@ -1,0 +1,43 @@
+---
+// Llamada a la acción: banda de color tierra a todo el ancho con una rama de olivo dibujada de fondo, título enorme,
+// texto y dos botones. cta sin url → WhatsApp del negocio (si lo hay) o el formulario de contacto;
+// cta_secundario sin url → teléfono (si lo hay). Sin título ni texto no se pinta.
+import { seccion, site, tel, whatsapp, buscarSeccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const contacto = buscarSeccion('contacto');
+const respaldo = whatsapp(c.whatsapp) || (contacto ? `/#${contacto.id}` : '');
+const principal = s?.cta?.texto ? { texto: s.cta.texto, url: s.cta.url || respaldo } : null;
+const segundo = s?.cta_secundario?.texto ? { texto: s.cta_secundario.texto, url: s.cta_secundario.url || tel(c.telefono) } : null;
+const externo = (u = '') => /^https?:\/\//i.test(u);
+---
+
+{
+  s && (s.titulo || s.texto) && (
+    <Seccion id={Astro.props.id} banda="tierra" class="overflow-hidden">
+      <svg class="rama -right-16 top-1/2 hidden h-[34rem] w-[34rem] -translate-y-1/2 md:block" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M20 180C60 140 110 90 185 20" />
+        <path d="M60 140c-18-2-30-14-32-30 18 2 30 14 32 30zM60 140c16-10 34-10 44 0-14 10-32 10-44 0zM95 105c-16-4-26-18-26-34 16 4 26 18 26 34zM95 105c16-8 34-6 42 4-14 8-32 8-42-4zM130 72c-14-6-22-20-20-36 14 6 22 20 20 36zM130 72c16-6 32-2 40 8-16 6-32 4-40-8zM160 44c-10-8-14-22-10-34 10 8 14 20 10 34z" />
+      </svg>
+      <div class="relative max-w-[60rem]">
+        {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+        {s.titulo && <h2 class="mt-6 text-[clamp(2.5rem,7vw,6.25rem)] leading-[.98] text-[var(--c-crema)]">{s.titulo}</h2>}
+        {s.texto && <p class="mt-6 max-w-[40rem] text-lg leading-relaxed text-[color-mix(in_srgb,var(--c-crema)_90%,transparent)] md:text-xl">{s.texto}</p>}
+        {(principal?.url || segundo?.url) && (
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {principal?.url && (
+              <a class="btn-claro" href={principal.url} rel={externo(principal.url) ? 'noopener' : undefined} target={externo(principal.url) ? '_blank' : undefined}>
+                {/wa\.me/.test(principal.url) && <Icono nombre="whatsapp" tam={18} />}
+                {principal.texto}
+              </a>
+            )}
+            {segundo?.url && <a class="btn-sec text-[var(--c-crema)]" href={segundo.url}>{segundo.texto}</a>}
+          </div>
+        )}
+      </div>
+    </Seccion>
+  )
+}

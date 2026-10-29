@@ -1,0 +1,66 @@
+---
+// Cabecera fija a todo el ancho: marca (logo o nombre en serif con una hoja), menú (site.yaml → menu) y botón
+// (boton_cabecera). Transparente sobre la foto de la portada y oliva al bajar (script mínimo); sin JavaScript,
+// siempre oliva. En las páginas sin portada a sangre deja un hueco de su altura. En móvil, menú plegable (<details>).
+// Estilos: .cabecera--campo en src/styles/global.css.
+import { site, seccionesActivas, disenoDe } from '../data/site';
+import type { Enlace } from '../data/site';
+interface Props { variante?: string; cta?: Enlace | null }
+const { variante = 'campo', cta = null } = Astro.props;
+// ¿La página empieza por la portada a sangre? (solo la portada de la web, con hero primero)
+const primera = seccionesActivas()[0];
+const esInicio = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
+const sobreHero = esInicio && !!primera && disenoDe(primera) === 'hero';
+---
+
+<header class:list={['cabecera', `cabecera--${variante}`, sobreHero && 'cabecera--sobre-hero']} data-cabecera>
+  <div class="contenedor cabecera-fila">
+    <a href="/" class="marca" aria-label={`${site.nombre}, inicio`}>
+      {
+        site.logo ? (
+          <img src={site.logo} alt={site.nombre} class="marca-logo" width="160" height="44" />
+        ) : (
+          <>
+            <svg class="marca-hoja" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 20C9 15 13 11 20 4" />
+              <path d="M9 15c-3 .3-5-1.2-5.5-4 3-.4 5 1 5.5 4zM13 11c-.3-3 1-5.2 3.8-6 .5 3-1 5.2-3.8 6zM14 10c3 .2 5 1.8 5.4 4.5-3 .3-5-1.4-5.4-4.5z" />
+            </svg>
+            <span class="marca-nombre">{site.nombre}</span>
+          </>
+        )
+      }
+    </a>
+    <nav class="cabecera-nav" aria-label="Menú principal">
+      {site.menu.map((e) => <a href={e.url}>{e.texto}</a>)}
+    </nav>
+    {cta && cta.url && <a href={cta.url} class="btn cabecera-cta">{cta.texto}</a>}
+    {
+      (site.menu.length > 0 || (cta && cta.url)) && (
+        <details class="menu-movil">
+          <summary aria-label="Abrir el menú">
+            <span class="menu-movil-icono" aria-hidden="true" />
+            <span>Menú</span>
+          </summary>
+          <nav class="menu-movil-panel" aria-label="Menú">
+            {site.menu.map((e) => <a href={e.url}>{e.texto}</a>)}
+            {cta && cta.url && <a href={cta.url} class="btn">{cta.texto}</a>}
+          </nav>
+        </details>
+      )
+    }
+  </div>
+</header>
+{!sobreHero && <div class="cabecera-hueco" aria-hidden="true" />}
+<script is:inline>
+  (function () {
+    document.documentElement.classList.add('js');
+    var c = document.querySelector('[data-cabecera]');
+    if (!c) return;
+    function mirar() { c.classList.toggle('cabecera--solida', window.scrollY > 40); }
+    mirar();
+    window.addEventListener('scroll', mirar, { passive: true });
+    c.querySelectorAll('.menu-movil a').forEach(function (a) {
+      a.addEventListener('click', function () { a.closest('details').open = false; });
+    });
+  })();
+</script>

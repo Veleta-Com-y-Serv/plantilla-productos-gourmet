@@ -1,0 +1,36 @@
+---
+// Preguntas frecuentes: banda crema; titular a la izquierda (fijo al bajar en escritorio) y acordeón sin JavaScript
+// (details/summary) a la derecha, con las preguntas en serif y un «+» que gira. Sin preguntas no se pinta.
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const preguntas = s ? s.preguntas.filter((p) => p.pregunta) : [];
+---
+
+{
+  s && preguntas.length > 0 && (
+    <Seccion id={Astro.props.id} banda="crema">
+      <div class="grid gap-10 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-5">
+          <Titular class="lg:sticky lg:top-28" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        </div>
+        <div class="border-t-2 border-primario lg:col-span-7">
+          {preguntas.map((p) => (
+            <details class="pregunta border-b border-[var(--c-linea)]">
+              <summary class="flex min-h-[4.5rem] cursor-pointer items-center justify-between gap-5 py-5">
+                <span class="serif text-[1.35rem] leading-snug text-primario md:text-[1.6rem]">{p.pregunta}</span>
+                <span class="pregunta-mas grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-[var(--c-linea)] text-primario transition-transform">
+                  <Icono nombre="mas" tam={18} />
+                </span>
+              </summary>
+              {p.respuesta && <p class="max-w-[42rem] pb-7 pr-14 text-[1.05rem] text-[var(--c-suave)]">{p.respuesta}</p>}
+            </details>
+          ))}
+        </div>
+      </div>
+    </Seccion>
+  )
+}

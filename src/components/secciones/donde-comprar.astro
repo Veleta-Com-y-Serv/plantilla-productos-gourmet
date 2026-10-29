@@ -1,0 +1,63 @@
+---
+// Dónde comprar: banda crema partida. A la izquierda, titular, texto y el botón a la tienda online (cta, opcional:
+// sin url no sale); a la derecha, los puntos de venta (items: titulo, texto, icono, url opcional) en filas separadas
+// por líneas, con el icono en un círculo de color tierra. Al pie, el horario de contacto si lo hay.
+import { seccion, site } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((i) => i.titulo) : [];
+const externo = (u = '') => /^https?:\/\//i.test(u);
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} banda="crema">
+      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-5">
+          <Titular class="mb-0 md:mb-0" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {s.cta?.url && (
+            <a class="btn mt-9" href={s.cta.url} rel={externo(s.cta.url) ? 'noopener' : undefined} target={externo(s.cta.url) ? '_blank' : undefined}>
+              <Icono nombre="tienda" tam={18} />
+              {s.cta.texto || 'Tienda online'}
+            </a>
+          )}
+          {site.contacto.horario && (
+            <p class="mt-10 border-l-2 border-acento pl-4 text-sm text-[var(--c-suave)]">
+              <span class="versal block text-[var(--c-acento-texto)]">Horario de la tienda</span>
+              <span class="mt-1 block">{site.contacto.horario}</span>
+            </p>
+          )}
+        </div>
+        {items.length > 0 && (
+          <ul class="border-t-2 border-primario lg:col-span-7">
+            {items.map((it) => {
+              const Etiqueta = it.url ? 'a' : 'div';
+              return (
+                <li class="border-b border-[var(--c-linea)]">
+                  <Etiqueta
+                    href={it.url || undefined}
+                    rel={it.url && externo(it.url) ? 'noopener' : undefined}
+                    target={it.url && externo(it.url) ? '_blank' : undefined}
+                    class:list={['group flex items-start gap-5 py-6 no-underline sm:gap-7 sm:py-8', it.url && 'hover:bg-[var(--c-kraft)]']}
+                  >
+                    <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-acento text-white sm:h-14 sm:w-14">
+                      <Icono nombre={it.icono || 'tienda'} tam={24} />
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="serif block text-[1.6rem] leading-tight text-primario sm:text-[2rem]">{it.titulo}</span>
+                      {it.texto && <span class="mt-1.5 block text-[var(--c-suave)]">{it.texto}</span>}
+                    </span>
+                    {it.url && <Icono nombre="flecha" tam={22} class="mt-2 shrink-0 text-[var(--c-acento-texto)] transition-transform group-hover:translate-x-1" />}
+                  </Etiqueta>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </Seccion>
+  )
+}

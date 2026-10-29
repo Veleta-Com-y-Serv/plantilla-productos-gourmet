@@ -1,0 +1,48 @@
+---
+// Portada a sangre (casi pantalla completa): foto de borde a borde con velo oliva desde abajo, antetítulo con línea,
+// título enorme en serif, texto corto y dos botones (cta, cta_secundario). Al pie, una franja con los rasgos de la
+// casa (items: titulo = rasgo, texto = detalle) separados por líneas finas; sin items no se pinta.
+// Sin imagen, la portada es de color oliva pleno. La cabecera fija va encima, transparente.
+import { seccion } from '../../data/site';
+import { altHero } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const datos = s ? s.items.filter((i) => i.titulo) : [];
+const Titulo = primera ? 'h1' : 'h2';
+---
+
+{
+  s && (
+    <section id={id} class:list={['hero-sangre sobre-oscuro', !s.imagen && 'hero-sangre--sin-foto']}>
+      {s.imagen && (
+        <Imagen src={s.imagen} alt={altHero()} ancho={1920} alto={1080} prioridad={primera} respaldo="/placeholders/paisaje.svg" class="hero-foto" />
+      )}
+      <div class="hero-velo" aria-hidden="true" />
+      <div class="contenedor flex flex-1 flex-col justify-end pb-12 pt-32 md:pb-20 md:pt-40">
+        {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+        {s.titulo && <Titulo class="hero-titulo mt-6 text-[var(--c-crema)]">{s.titulo}</Titulo>}
+        {s.texto && <p class="mt-6 max-w-[38rem] text-lg leading-relaxed text-[color-mix(in_srgb,var(--c-crema)_88%,transparent)] md:text-xl">{s.texto}</p>}
+        {(s.cta?.url || s.cta_secundario?.url) && (
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {s.cta?.url && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+            {s.cta_secundario?.url && <a class="btn-sec text-[var(--c-crema)]" href={s.cta_secundario.url}>{s.cta_secundario.texto}</a>}
+          </div>
+        )}
+      </div>
+      {datos.length > 0 && (
+        <div class="hero-pie bg-[color-mix(in_srgb,var(--c-oscuro)_55%,transparent)] backdrop-blur-[2px]">
+          <dl class="contenedor grid divide-y divide-[var(--c-linea-clara)] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            {datos.map((d) => (
+              <div class="py-4 sm:px-6 sm:py-6 sm:first:pl-0">
+                <dt class="serif text-xl text-[var(--c-crema)] md:text-2xl">{d.titulo}</dt>
+                {d.texto && <dd class="mt-0.5 text-sm text-[color-mix(in_srgb,var(--c-crema)_78%,transparent)]">{d.texto}</dd>}
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+    </section>
+  )
+}

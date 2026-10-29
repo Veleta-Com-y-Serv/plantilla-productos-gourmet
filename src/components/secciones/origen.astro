@@ -1,0 +1,49 @@
+---
+// Origen (quiénes somos): fila 50/50 a sangre. A la izquierda la foto del campo toca el borde de la ventana; a la
+// derecha, sobre oliva, antetítulo, título, párrafos (líneas en blanco = párrafos nuevos), botón (cta) y la familia
+// (personas: nombre, cargo, foto, texto) en una lista con líneas finas. Sin imagen, el texto ocupa la banda entera.
+import { seccion, parrafos } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const personas = s ? s.personas.filter((p) => p.nombre) : [];
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda banda--oliva sobre-oscuro">
+      <div class:list={['grid', s.imagen && 'lg:grid-cols-2']}>
+        {s.imagen && (
+          <div class="relative min-h-[22rem] sm:min-h-[30rem] lg:min-h-full">
+            <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={1400} respaldo="/placeholders/paisaje.svg" class="absolute inset-0 h-full w-full object-cover" />
+          </div>
+        )}
+        <div class:list={['px-4 py-16 sm:px-8 md:py-24 lg:px-16 xl:px-24', !s.imagen && 'contenedor']}>
+          <div class="max-w-[40rem]">
+            {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+            {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+            <div class="mt-7 space-y-5 text-lg leading-relaxed text-[color-mix(in_srgb,var(--c-crema)_86%,transparent)]">
+              {parrafos(s.texto).map((p) => <p>{p}</p>)}
+            </div>
+            {s.cta?.url && <a class="btn-claro mt-9" href={s.cta.url}>{s.cta.texto}</a>}
+          </div>
+          {personas.length > 0 && (
+            <ul class="mt-14 grid max-w-[44rem] border-t border-[var(--c-linea-clara)] sm:grid-cols-2">
+              {personas.map((p) => (
+                <li class="flex gap-4 border-b border-[var(--c-linea-clara)] py-5 sm:pr-5">
+                  <Imagen src={p.foto || '/placeholders/persona.svg'} alt={p.nombre} ancho={120} alto={120} respaldo="/placeholders/persona.svg" class="h-14 w-14 shrink-0 rounded-full object-cover" />
+                  <div class="min-w-0">
+                    <p class="serif text-xl leading-tight text-[var(--c-crema)]">{p.nombre}</p>
+                    {p.cargo && <p class="versal mt-1 text-[var(--c-acento-claro)]">{p.cargo}</p>}
+                    {p.texto && <p class="mt-2 text-sm text-[color-mix(in_srgb,var(--c-crema)_75%,transparent)]">{p.texto}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}

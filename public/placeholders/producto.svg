@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Foto del producto pendiente">
+  <rect width="800" height="800" fill="#eadcc4"/>
+  <g fill="none" stroke="#a4532d" stroke-width="10" stroke-linejoin="round" opacity=".55">
+    <path d="M190 520l210-250 210 115v135z"/>
+    <path d="M190 520h420"/>
+    <circle cx="330" cy="460" r="22"/>
+    <circle cx="480" cy="445" r="16"/>
+  </g>
+</svg>

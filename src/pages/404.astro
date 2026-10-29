@@ -1,0 +1,24 @@
+---
+// Página 404 con el diseño de la plantilla: banda oliva casi a pantalla completa con una rama de olivo dibujada.
+import Base from '../layouts/Base.astro';
+import { buscarSeccion } from '../data/site';
+const productos = buscarSeccion('productos');
+---
+
+<Base titulo="Página no encontrada">
+  <section class="banda banda--oliva sobre-oscuro relative overflow-hidden">
+    <svg class="rama -right-24 bottom-0 h-[30rem] w-[30rem] md:h-[40rem] md:w-[40rem]" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M20 180C60 140 110 90 185 20" />
+      <path d="M60 140c-18-2-30-14-32-30 18 2 30 14 32 30zM60 140c16-10 34-10 44 0-14 10-32 10-44 0zM95 105c-16-4-26-18-26-34 16 4 26 18 26 34zM95 105c16-8 34-6 42 4-14 8-32 8-42-4zM130 72c-14-6-22-20-20-36 14 6 22 20 20 36zM130 72c16-6 32-2 40 8-16 6-32 4-40-8zM160 44c-10-8-14-22-10-34 10 8 14 20 10 34z" />
+    </svg>
+    <div class="contenedor relative flex min-h-[78svh] flex-col justify-center py-20">
+      <p class="antetitulo">Error 404</p>
+      <h1 class="hero-titulo mt-6 text-[var(--c-crema)]">Este camino no lleva a la majada</h1>
+      <p class="mt-6 max-w-xl text-lg text-[color-mix(in_srgb,var(--c-crema)_85%,transparent)]">Puede que el enlace esté mal o que la página ya no exista. Vuelve al inicio y sigue mirando.</p>
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a class="btn" href="/">Volver al inicio</a>
+        {productos && <a class="btn-sec text-[var(--c-crema)]" href={`/#${productos.id}`}>{productos.s.antetitulo || productos.s.titulo || 'Productos'}</a>}
+      </div>
+    </div>
+  </section>
+</Base>
