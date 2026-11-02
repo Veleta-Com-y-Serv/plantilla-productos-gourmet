@@ -11,6 +11,8 @@ import Seccion from '../ui/Seccion.astro';
 import Titular from '../ui/Titular.astro';
 import Imagen from '../ui/Imagen.astro';
 import Icono from '../ui/Icono.astro';
+import { enlaceDe } from '../../lib/paginas';
+// Los productos con `detalle` tienen página propia (/productos/<slug>/): el nombre es un enlace y toda la ficha es clicable.
 interface Props { id: string }
 const s = seccion(Astro.props.id);
 const lista: Producto[] = s ? s.productos.filter((p) => p.nombre) : [];
@@ -41,14 +43,15 @@ const mensaje = (p: Producto) => `Hola, quiero pedir: ${p.nombre}${p.formato ? `
           <ul class="estanteria mt-10 md:mt-12">
             {lista.map((p) => (
               <li data-categoria={clave(p.categoria)}>
-                <article class="ficha grid w-full grid-cols-[minmax(0,38%)_minmax(0,1fr)] sm:flex sm:flex-col">
+                <article class="ficha relative grid w-full grid-cols-[minmax(0,38%)_minmax(0,1fr)] sm:flex sm:flex-col">
                   <div class="ficha-foto">
                     <Imagen src={p.imagen || '/placeholders/producto.svg'} alt={p.nombre} ancho={800} alto={800} respaldo="/placeholders/producto.svg" class="w-full object-cover max-sm:absolute max-sm:inset-0 max-sm:h-full sm:aspect-square" />
                     {p.destacado && <span class="etiqueta-colgante">Lo más pedido</span>}
                   </div>
                   <div class="flex min-w-0 flex-1 flex-col px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-5 lg:px-7">
                     {p.categoria && <p class="versal text-[var(--c-acento-texto)]">{p.categoria}</p>}
-                    <h3 class="mt-1.5 text-[1.3rem] leading-tight text-primario sm:mt-2 sm:text-[1.7rem]">{p.nombre}</h3>
+                    <h3 class="mt-1.5 text-[1.3rem] leading-tight text-primario sm:mt-2 sm:text-[1.7rem]">{enlaceDe(p) ? <a href={enlaceDe(p)} class="ficha-enlace">{p.nombre}</a> : p.nombre}</h3>
+                    {enlaceDe(p) && <span class="ficha-ver" aria-hidden="true">Ver más <Icono nombre="flecha" tam={16} /></span>}
                     {p.texto && <p class="mt-1.5 text-sm text-[var(--c-suave)] sm:mt-2 sm:text-[.97rem]">{p.texto}</p>}
                     {(p.formato || conPrecio(p.precio)) && (
                       <p class="linea-precio mt-3 sm:mt-5">
@@ -57,7 +60,7 @@ const mensaje = (p: Producto) => `Hola, quiero pedir: ${p.nombre}${p.formato ? `
                         {conPrecio(p.precio) && <span class="serif whitespace-nowrap text-xl font-bold text-primario sm:text-2xl">{p.precio}</span>}
                       </p>
                     )}
-                    <div class="mt-auto flex items-center gap-2 pt-4 sm:pt-6">
+                    <div class="relative z-10 mt-auto flex items-center gap-2 pt-4 sm:pt-6">
                       {destino && (
                         <a href={destino} data-producto={p.nombre} class="btn-pedir flex-1">
                           {conPrecio(p.precio) ? 'Pedir' : 'Consultar'}

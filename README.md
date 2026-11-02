@@ -38,3 +38,7 @@ npx astro preview
 
 Fotos: `fotos.json` (16, se generan aparte); mientras no existan se ven los SVG de `public/placeholders/`.
 Contrato de plantillas de la plataforma: `docs/plantillas.md` y `docs/seo-base.md` del repo de NoExpertise.
+
+## Páginas propias
+- Cada elemento de `secciones.productos.productos` con `detalle` tiene su página en `/productos/<slug>/` (`src/pages/[coleccion]/[slug].astro`).
+- Campos opcionales de los elementos con ficha: `detalle` (párrafos separados por una línea en blanco), `slug` e `imagenes` («/fotos/a.jpg; /fotos/b.jpg»).

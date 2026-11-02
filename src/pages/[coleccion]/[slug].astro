@@ -1,0 +1,200 @@
+---
+// Ficha de un producto con `detalle` (src/lib/paginas.ts, listas de src/data/fichas.ts): /productos/<slug>/.
+// Diseño «despensa»: banda de papel de estraza con migas y hero partido (foto cuadrada de borde recto, categoría en
+// versalitas, nombre en serif grande, texto y etiqueta de tienda con formato y precio a puntos, botones «Pedir» y
+// WhatsApp); banda crema con el `detalle` y la tabla de datos; fotos (`imagenes`) a sangre; banda oliva con más
+// productos de la misma lista en rejilla de líneas finas, como la estantería de la portada.
+import Base from '../../layouts/Base.astro';
+import Imagen from '../../components/ui/Imagen.astro';
+import Icono from '../../components/ui/Icono.astro';
+import { conPrecio, site, tel, whatsapp } from '../../data/site';
+import { fichas, relacionadas, resumen } from '../../lib/paginas';
+import type { Ficha } from '../../lib/paginas';
+import { altGaleria, jsonLdFicha, jsonLdMigas, urlBase } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return fichas().map((f) => ({ params: { coleccion: f.def.ruta, slug: f.slug }, props: { f } }));
+}
+
+interface Props { f: Ficha }
+const { f } = Astro.props;
+const base = urlBase(Astro.site);
+const nombreSeccion = String(f.seccion.antetitulo || f.seccion.titulo || f.def.nombre).trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: `/#${f.idSeccion}` },
+  { nombre: f.titulo, ruta: f.url },
+];
+const c = site.contacto;
+const pedido = site.boton_cabecera?.url || '/#contacto';
+const wa = whatsapp(c.whatsapp, `Hola, quiero pedir: ${f.titulo}`);
+const precio = conPrecio(f.precio) ? f.precio : '';
+const formato = f.datos.find((d) => d.clave === 'formato')?.valor ?? '';
+const datos = f.datos.filter((d) => !['precio', 'formato', 'categoria'].includes(d.clave));
+const otras = relacionadas(f, 4);
+const descripcion = resumen(f.texto || f.detalle[0] || '');
+---
+
+<Base titulo={f.titulo} descripcion={descripcion} imagen={f.imagen} ld={[jsonLdMigas(base, migas), jsonLdFicha(base, f)]}>
+  <section class="banda banda--kraft pg-cabeza">
+    <div class="contenedor">
+      <nav aria-label="Migas de pan" class="migas">
+        <ol>
+          {migas.map((m, i) => (
+            <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+      <div class:list={['pg-hero', { 'pg-hero--sin-foto': !f.imagen }]}>
+        <div class="pg-texto">
+          <p class="antetitulo">{f.categoria || f.def.nombre}</p>
+          <h1 class="titulo-seccion">{f.titulo}</h1>
+          {f.texto && <p class="titular-texto">{f.texto}</p>}
+          {(formato || precio) && (
+            <p class="linea-precio pg-etiqueta">
+              <span class="pg-formato">{formato}</span>
+              <span class="puntos" aria-hidden="true"></span>
+              {precio && <span class="serif pg-precio">{precio}</span>}
+            </p>
+          )}
+          <div class="pg-botones">
+            <a class="btn" href={pedido}>{precio ? 'Pedir' : 'Consultar'}</a>
+            {wa && <a class="btn-sec" href={wa} target="_blank" rel="noopener"><Icono nombre="whatsapp" tam={18} /> WhatsApp</a>}
+          </div>
+        </div>
+        {f.imagen ? (
+          <div class="pg-foto">
+            <Imagen src={f.imagen} alt={f.titulo} ancho={1200} alto={1200} prioridad respaldo="/placeholders/producto.svg" class="h-full w-full object-cover" />
+          </div>
+        ) : (
+          <div class="pg-icono" aria-hidden="true"><Icono nombre={f.icono || 'queso'} tam={96} /></div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda--crema pg-cuerpo-banda">
+    <div class="contenedor pg-cuerpo">
+      <article class="texto-largo pg-detalle">
+        {f.detalle.map((p) => <p>{p}</p>)}
+      </article>
+      <aside class="pg-lado">
+        {(datos.length > 0 || precio || formato) && (
+          <div class="pg-datos">
+            <h2 class="pg-lado-titulo">En pocas palabras</h2>
+            <dl>
+              {f.categoria && <div><dt>Tipo</dt><dd>{f.categoria}</dd></div>}
+              {formato && <div><dt>Formato</dt><dd>{formato}</dd></div>}
+              {precio && <div><dt>Precio</dt><dd class="pg-precio">{precio}</dd></div>}
+              {datos.map((d) => <div><dt>{d.etiqueta}</dt><dd>{d.valor}</dd></div>)}
+            </dl>
+          </div>
+        )}
+        <div class="pg-pedido banda--oliva sobre-oscuro">
+          <p class="pg-pedido-titulo">¿Lo probamos en tu mesa?</p>
+          <p>Escríbenos y te lo preparamos y te lo mandamos.</p>
+          <a class="btn" href={pedido}>Hacer un pedido</a>
+          {c.telefono && <a class="pg-tel" href={tel(c.telefono)}><Icono nombre="telefono" tam={18} /> {c.telefono}</a>}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {f.imagenes.length > 0 && (
+    <section class="banda banda--kraft" aria-label={`Fotos de ${f.titulo}`}>
+      <ul class="pg-galeria">
+        {f.imagenes.map((src, i) => (
+          <li><Imagen src={src} alt={`${f.titulo}: ${altGaleria(i).toLowerCase()}`} ancho={800} alto={600} class="h-full w-full object-cover" /></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {otras.length > 0 && (
+    <section class="banda banda--oliva sobre-oscuro pg-otras-banda">
+      <div class="contenedor">
+        <div class="titular">
+          <p class="antetitulo">{nombreSeccion}</p>
+          <h2 class="titulo-seccion">Más de la despensa</h2>
+        </div>
+      </div>
+      <ul class="pg-otras">
+        {otras.map((o) => (
+          <li class="pg-otra">
+            <p class="versal pg-otra-cat">{o.categoria || f.def.nombre}</p>
+            <h3><a href={o.url} class="pg-otra-enlace">{o.titulo}</a></h3>
+            {o.texto && <p class="pg-otra-texto">{o.texto}</p>}
+            <p class="pg-otra-pie">
+              {conPrecio(o.precio) && <span class="serif pg-precio">{o.precio}</span>}
+              <span class="pg-otra-ver" aria-hidden="true">Ver más <Icono nombre="flecha" tam={16} /></span>
+            </p>
+          </li>
+        ))}
+      </ul>
+      <div class="contenedor pg-todos">
+        <a class="btn-sec" href={`/#${f.idSeccion}`}>Ver toda la despensa</a>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .pg-cabeza { padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 6vw, 5.5rem); }
+  .migas ol { display: flex; flex-wrap: wrap; gap: .25rem .5rem; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .migas li { display: inline-flex; align-items: center; gap: .5rem; min-width: 0; }
+  .migas li + li::before { content: "/"; opacity: .5; }
+  .migas a { color: var(--c-primario); text-decoration: none; min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .migas a:hover { text-decoration: underline; }
+  .migas [aria-current] { opacity: .7; overflow-wrap: anywhere; }
+  .pg-hero { display: grid; gap: 2.5rem; margin-top: clamp(1rem, 3vw, 2rem); align-items: center; }
+  .pg-texto .titulo-seccion { font-size: clamp(2.3rem, 6vw, 4.5rem); overflow-wrap: anywhere; }
+  .pg-etiqueta { margin-top: 1.75rem; padding-block: .9rem; border-block: 1px solid var(--c-linea); }
+  .pg-formato { font-size: .95rem; }
+  .pg-precio { font-weight: 700; font-size: 1.6rem; color: var(--c-primario); white-space: nowrap; }
+  .pg-botones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+  .pg-botones a { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; }
+  .pg-foto { aspect-ratio: 1 / 1; overflow: hidden; background: var(--c-kraft); border: 1px solid var(--c-linea); }
+  .pg-icono { display: grid; place-items: center; aspect-ratio: 4 / 3; background: var(--c-fondo); color: var(--c-acento-texto); border: 1px solid var(--c-linea); }
+  .pg-cuerpo-banda { padding-block: var(--ritmo); }
+  .pg-cuerpo { display: grid; gap: 3rem; }
+  .pg-detalle { max-width: 44rem; font-size: 1.1rem; }
+  .pg-detalle p + p { margin-top: 1.2rem; }
+  .pg-detalle p:first-child { font-family: var(--fuente-titulos); font-size: 1.4rem; line-height: 1.4; }
+  .pg-lado { display: grid; gap: 1.5rem; align-content: start; }
+  .pg-lado-titulo { font-size: 1.4rem; margin-bottom: 1rem; color: var(--c-primario); }
+  .pg-datos { border: 1px solid var(--c-linea); padding: 1.5rem; }
+  .pg-datos dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem 0; border-top: 1px solid var(--c-linea); }
+  .pg-datos dt { font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; opacity: .7; padding-top: .2rem; }
+  .pg-datos dd { text-align: right; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+  .pg-datos dd.pg-precio { font-size: 1.25rem; }
+  .pg-pedido { display: grid; gap: .9rem; padding: 1.75rem 1.5rem; justify-items: start; }
+  .pg-pedido-titulo { font-family: var(--fuente-titulos); font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
+  .pg-tel { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; font-weight: 700; color: var(--c-crema); text-decoration: none; }
+  .pg-galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .pg-galeria li { aspect-ratio: 4 / 3; overflow: hidden; }
+  .pg-otras-banda { padding-top: var(--ritmo); }
+  .pg-otras { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--c-linea-clara); }
+  .pg-otra { position: relative; display: flex; flex-direction: column; gap: .6rem; padding: 1.75rem 1.25rem; border-bottom: 1px solid var(--c-linea-clara); }
+  .pg-otra-cat { color: var(--c-acento-claro); }
+  .pg-otra h3 { font-size: 1.6rem; color: var(--c-crema); }
+  .pg-otra-enlace { color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+  .pg-otra-enlace::after { content: ""; position: absolute; inset: 0; }
+  .pg-otra-enlace:focus-visible { outline: none; }
+  .pg-otra:has(.pg-otra-enlace:focus-visible) { outline: 2px solid var(--c-acento-claro); outline-offset: -4px; }
+  .pg-otra-texto { font-size: .95rem; opacity: .85; }
+  .pg-otra .pg-precio { color: var(--c-crema); font-size: 1.4rem; }
+  .pg-otra-pie { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: .75rem; }
+  .pg-otra-ver { display: inline-flex; align-items: center; gap: .3rem; font-size: .74rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--c-acento-claro); }
+  .pg-todos { padding-block: 3rem 4.5rem; }
+  @media (min-width: 640px) {
+    .pg-otras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pg-otra { padding: 2rem 1.75rem; border-right: 1px solid var(--c-linea-clara); }
+  }
+  @media (min-width: 1024px) {
+    .pg-hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 4.5rem; }
+    .pg-cuerpo { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 5rem; align-items: start; }
+    .pg-lado { position: sticky; top: 6.5rem; }
+    .pg-otras { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pg-todos { padding-block: 3.5rem 6rem; }
+  }
+</style>

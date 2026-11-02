@@ -65,3 +65,8 @@ agente) rediseñe la plantilla.
 - [x] `README.md`, `CLAUDE.md`, `aviso-legal.astro` y `404.astro` con el diseño.
 - [ ] Fotos y previews definitivas (paso de fotos); repo `Veleta-Com-y-Serv/plantilla-productos-gourmet` y
   etiqueta `v1.0.0`; en la plataforma, `config/plantillas.php` y `plantillas:sync --demos`.
+
+## Páginas propias (fichas)
+Despensa en bandas: estraza con migas y hero partido (foto cuadrada recta, etiqueta de precio a puntos), crema con el detalle, caja oliva de pedido y rejilla oliva de líneas finas con más productos. Con la misma piel que la portada: cabecera y pie de la plantilla, migas (Inicio › Sección › Elemento), hero con la foto del
+elemento (sin foto, su icono), `detalle` en párrafos, tabla de datos, caja de contacto, galería (`imagenes`) y otros elementos
+de la misma lista.

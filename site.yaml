@@ -55,12 +55,72 @@ secciones:
     texto: Elaboración propia y en tandas pequeñas. Precios con IVA; el envío va aparte.
     cta: { texto: Pide la lista completa, url: "/#contacto" }
     productos:   # categoria agrupa y filtra; formato = tamaño o presentación; precio vacío o «Consultar» = sin precio
-      - { nombre: Torta del Berrocal, categoria: Quesos, formato: "Pieza de 1 kg aprox.", precio: "24 €", destacado: true, texto: "Queso de oveja merina de pasta blanda: se abre por arriba y se come a cucharadas.", imagen: /fotos/producto-1.jpg }
-      - { nombre: Queso de oveja curado, categoria: Quesos, formato: "Media pieza, 1,4 kg", precio: "29 €", destacado: false, texto: Seis meses en cava. Sabor intenso con un punto picante al final., imagen: /fotos/producto-2.jpg }
+      - nombre: Torta del Berrocal
+        categoria: Quesos
+        formato: "Pieza de 1 kg aprox."
+        precio: "24 €"
+        destacado: true
+        texto: "Queso de oveja merina de pasta blanda: se abre por arriba y se come a cucharadas."
+        imagen: /fotos/producto-1.jpg
+        detalle: |
+          La torta es el queso que mejor cuenta cómo es la majada. Se hace con leche cruda de oveja merina, ordeñada por la mañana y cuajada en el obrador con cuajo natural de cardo, sin prisas y sin aditivos. Después madura en la cava de piedra, donde se voltea a diario hasta que la corteza se vuelve fina y el interior se hace cremoso.
+
+          Llega a casa en su punto: se corta la tapa con un cuchillo fino y se come a cucharadas, untada en pan de hogaza tostado o sobre unas patatas cocidas. Tiene un sabor láctico, ligeramente amargo al final, que recuerda al cardo y a la hierba de la dehesa.
+
+          Conviene sacarla de la nevera un buen rato antes de servirla para que se ablande. Si te sobra, tápala con su propia tapa y guárdala en frío; al día siguiente estará aún más untuosa. Es el queso que pedimos que pruebes primero.
+      - nombre: Queso de oveja curado
+        categoria: Quesos
+        formato: "Media pieza, 1,4 kg"
+        precio: "29 €"
+        destacado: false
+        texto: Seis meses en cava. Sabor intenso con un punto picante al final.
+        imagen: /fotos/producto-2.jpg
+        detalle: |
+          Es el queso de toda la vida de la casa: leche de oveja merina, cuajo natural, sal y tiempo. Tras el prensado se sala a mano y pasa muchos meses en la cava, donde se cepilla y se unta con aceite de oliva para que la corteza se mantenga sana y la pasta se cure despacio.
+
+          El resultado es una pasta firme, de color marfil, con pequeños ojos y cristales de sal que crujen al morder. El sabor es intenso y persistente, con ese punto picante final que gusta a quien busca un queso con carácter. Se vende por mitades para que llegue fresco y bien envasado al vacío.
+
+          Va muy bien en tabla con membrillo, con unas nueces o simplemente con pan. También se rallan unas virutas sobre un plato de pasta o de verduras asadas. Para disfrutarlo mejor, córtalo en lascas finas y déjalo atemperar un rato fuera de la nevera.
       - { nombre: Queso de cabra en aceite, categoria: Quesos, formato: Tarro de 400 g, precio: "11,50 €", destacado: false, texto: Tacos de queso semicurado en aceite de oliva con romero y tomillo del monte., imagen: /fotos/producto-3.jpg }
-      - { nombre: Miel de encina y brezo, categoria: Miel, formato: Tarro de 500 g, precio: "9 €", destacado: false, texto: "Oscura, densa y poco dulce. De nuestras colmenas en la sierra de Santa Cruz.", imagen: /fotos/producto-4.jpg }
-      - { nombre: Aceite de oliva virgen extra, categoria: Aceite, formato: Botella de 750 ml, precio: "12 €", destacado: false, texto: "Variedad manzanilla cacereña, cosecha temprana y extracción en frío.", imagen: /fotos/producto-5.jpg }
-      - { nombre: Membrillo artesano, categoria: Despensa, formato: Tarrina de 400 g, precio: "5,50 €", destacado: false, texto: Hecho en el obrador con membrillos de la vega y poco azúcar. Para acompañar el queso., imagen: /fotos/producto-6.jpg }
+      - nombre: Miel de encina y brezo
+        categoria: Miel
+        formato: Tarro de 500 g
+        precio: "9 €"
+        destacado: false
+        texto: "Oscura, densa y poco dulce. De nuestras colmenas en la sierra de Santa Cruz."
+        imagen: /fotos/producto-4.jpg
+        detalle: |
+          Esta miel nace de las colmenas que Andrés cuida en la sierra, entre encinas y matas de brezo. Las abejas liban la melada de la encina y la flor del brezo, y de esa mezcla sale una miel oscura, densa y de aroma profundo, que se aleja del dulzor fácil de las mieles claras.
+
+          Se extrae en frío y se envasa sin calentar ni mezclar con otras mieles, de modo que conserva su aroma y sus propiedades. Con el tiempo puede cristalizar, y no pasa nada: es señal de que es natural. Basta con calentar el tarro al baño maría, sin que llegue a hervir, para que vuelva a quedar fluida.
+
+          En la cocina sirve para casi todo: endulzar una infusión, acompañar un queso curado, glasear carnes o untar en una tostada con mantequilla. Su sabor ligeramente amaderado y su final suave la hacen perfecta para quien no quiere una miel empalagosa.
+      - nombre: Aceite de oliva virgen extra
+        categoria: Aceite
+        formato: Botella de 750 ml
+        precio: "12 €"
+        destacado: false
+        texto: "Variedad manzanilla cacereña, cosecha temprana y extracción en frío."
+        imagen: /fotos/producto-5.jpg
+        detalle: |
+          Nuestro aceite sale de los olivos de manzanilla cacereña que rodean la finca. Se recoge a mano al principio de la campaña, cuando la aceituna aún está entre verde y morada, y se muele el mismo día para que no pierda frescura. La extracción se hace en frío y sin más ayuda que la presión y el reposo.
+
+          En la copa es de color verde dorado, con aroma a hierba recién cortada y a tomate verde. En boca entra frutado y se queda con un ligero amargor y un picor agradable en la garganta, que son la marca de un aceite joven y bien hecho. Se envasa en botella oscura para protegerlo de la luz.
+
+          Es un aceite para consumir en crudo: sobre una tostada con tomate, en ensaladas, sobre un queso fresco o para terminar un guiso. Guárdalo en un lugar fresco y sin luz, bien cerrado, y notarás durante meses la diferencia con un aceite corriente.
+      - nombre: Membrillo artesano
+        categoria: Despensa
+        formato: Tarrina de 400 g
+        precio: "5,50 €"
+        destacado: false
+        texto: Hecho en el obrador con membrillos de la vega y poco azúcar. Para acompañar el queso.
+        imagen: /fotos/producto-6.jpg
+        detalle: |
+          El membrillo se hace en el obrador con fruta de la vega, que llega madura y aromática en otoño. Se pela, se cuece despacio en perol de cobre y se remueve a mano con muy poco azúcar, el justo para que cuaje y se conserve sin perder el sabor de la fruta.
+
+          Queda una pasta de color ámbar, firme pero tierna, con un aroma que llena la cocina. No empalaga ni sabe a dulce industrial: se nota el membrillo, con su punto ácido y ligeramente áspero. Se presenta en tarrina para que sea fácil de cortar y de guardar en la nevera una vez abierto.
+
+          Es el acompañamiento natural del queso curado y de la torta, pero también combina con requesón, con jamón o sobre una tostada de pan con mantequilla. Para una tabla de queso redonda, corta unas lonchas gruesas y deja que cada comensal se sirva a su gusto.
       - { nombre: Lote Majada, categoria: Lotes, formato: Caja de madera, precio: Consultar, destacado: false, texto: "Torta, queso curado, miel y aceite en caja de regalo. Para empresas, bodas y Navidad.", imagen: /fotos/producto-7.jpg }
 
   origen:
