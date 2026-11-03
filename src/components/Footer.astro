@@ -4,6 +4,7 @@
 // «Web creada con NoExpertise» se muestra si site.yaml → marca_pie no es false.
 import { site, tel, mapa, whatsapp, buscarSeccion } from '../data/site';
 import Icono from './ui/Icono.astro';
+import { rutaDeSeccion } from '../lib/multipagina';
 interface Props { variante?: string }
 const { variante = 'campo' } = Astro.props;
 const c = site.contacto;
@@ -51,7 +52,7 @@ const categorias = productos
         <div>
           <p class="pie-titulo">{productos.s.antetitulo || productos.s.titulo}</p>
           <ul class="pie-lista">
-            {categorias.map((cat) => <li><a href={`/#${productos.id}`}>{cat}</a></li>)}
+            {categorias.map((cat) => <li><a href={rutaDeSeccion(productos.id)}>{cat}</a></li>)}
           </ul>
         </div>
       )

@@ -2,6 +2,7 @@
 // Página 404 con el diseño de la plantilla: banda oliva casi a pantalla completa con una rama de olivo dibujada.
 import Base from '../layouts/Base.astro';
 import { buscarSeccion } from '../data/site';
+import { rutaDeSeccion } from '../lib/multipagina';
 const productos = buscarSeccion('productos');
 ---
 
@@ -17,7 +18,7 @@ const productos = buscarSeccion('productos');
       <p class="mt-6 max-w-xl text-lg text-[color-mix(in_srgb,var(--c-crema)_85%,transparent)]">Puede que el enlace esté mal o que la página ya no exista. Vuelve al inicio y sigue mirando.</p>
       <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <a class="btn" href="/">Volver al inicio</a>
-        {productos && <a class="btn-sec text-[var(--c-crema)]" href={`/#${productos.id}`}>{productos.s.antetitulo || productos.s.titulo || 'Productos'}</a>}
+        {productos && <a class="btn-sec text-[var(--c-crema)]" href={rutaDeSeccion(productos.id)}>{productos.s.antetitulo || productos.s.titulo || 'Productos'}</a>}
       </div>
     </div>
   </section>

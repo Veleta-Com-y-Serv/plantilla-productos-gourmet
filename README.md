@@ -42,3 +42,4 @@ Contrato de plantillas de la plataforma: `docs/plantillas.md` y `docs/seo-base.m
 ## Páginas propias
 - Cada elemento de `secciones.productos.productos` con `detalle` tiene su página en `/productos/<slug>/` (`src/pages/[coleccion]/[slug].astro`).
 - Campos opcionales de los elementos con ficha: `detalle` (párrafos separados por una línea en blanco), `slug` e `imagenes` («/fotos/a.jpg; /fotos/b.jpg»).
+- Varias páginas (opcional, `paginas:` en la raíz de `site.yaml`): Inicio + una página por entrada (`{ ruta, titulo, secciones: "a; b" }`, hasta 6) con el menú hecho solo; reparto recomendado en `template.yaml → paginas`. Sin la clave, una sola página larga.
